@@ -1,9 +1,7 @@
----@diagnostic disable: undefined-global, undefined-field -- yooo idgaf
-
 _G._sbar = _sbar or {
     tweak_data = {
         global = {
-            animation_speed = 1, -- breaks timers for now
+            animation_speed = 1
         },
         panels = {
             [1] = {
@@ -38,16 +36,17 @@ _G._sbar = _sbar or {
             reload = {
                 type = "timer",
                 duration = 1,
-                color = Color(0.3, 0, 0, 1),
+                color = Color(0.3, 1, 1, 1),
                 offsets = {x = 2, y = 2, w = 0},
-                panel_id = 2
+                panel_id = 3,
+                number = true
             },
-            -- ammo = {
-            --     type = "ratio",
-            --     color = Color(0.1, 1, 1, 1),
-            --     offsets = {x = 0, y = 0, w = 0},
-            --     panel_id = 2
-            -- },
+            ammo = {
+                type = "ratio",
+                color = Color(0.3, 1, 0.5, 1),
+                offsets = {x = 0, y = 0, w = 0},
+                panel_id = 3
+            },
 
             active = {
                 type = "timer",
@@ -69,7 +68,7 @@ _G._sbar = _sbar or {
                 type = "ratio",
                 color = Color(0.1, 1, 1, 1),
                 offsets = {x = 0, y = 0, w = 0},
-                panel_id = 3
+                panel_id = 2
             }
         }
     }
@@ -135,6 +134,7 @@ function _sbar:start(name, status)
             color = Color.white,
             align = "left",
             vertical = "center",
+            layer = 10000,
             w = panel:w(),
             h = panel:h()
         })
@@ -156,7 +156,7 @@ function _sbar:setactive(name, duration_override)
     rect:set_w(panel:w() - 4)
 
     rect:animate(function(o)
-        local duration = (duration_override or status.duration) / speed
+        local duration = (duration_override or status.duration)
         local start_time = TimerManager:game():time()
 
         over(duration, function(t)
